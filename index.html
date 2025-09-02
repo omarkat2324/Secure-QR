@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Access Portal</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --card: #ffffff;
+      --muted: #667085;
+      --danger: #b42318;
+      --brand: #2d5bff;
+      --border: #e6e8ec;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 600px at 50% -10%, #142342 0%, #0b1220 60%, #0b1220 100%);
+      color: #111827;
+    }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 32px 16px;
+    }
+    .card {
+      width: 100%;
+      max-width: 540px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.15);
+      overflow: hidden;
+    }
+    .hdr {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg,#f8fafc 0%, #f2f5f9 100%);
+    }
+    .logo {
+      width: 28px; height: 28px;
+      display: grid; place-items: center;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--brand), #5a7aff);
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .body {
+      padding: 26px 22px 28px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed #eef0f4;
+    }
+    .row:last-child { border-bottom: 0; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 12px;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .badge.dngr { background: var(--danger); }
+    .badge.info { background: #1d4ed8; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .emph { font-weight: 700; }
+    .center { text-align: center; }
+    .footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: #fafbfc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #475569;
+      font-size: 12px;
+    }
+    .banner {
+      background: var(--danger);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      display: none;
+    }
+    .hide { display: none; }
+    .code {
+      font-family: monospace;
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="hdr">
+        <div class="logo">SA</div>
+        <div>
+          <div class="title">Secure Access Portal</div>
+          <div class="sub">Controllo dispositivi · Policy BYOD</div>
+        </div>
+      </div>
+
+      <div class="banner" id="banner">⚠ Verrai contattato dal reparto IT per la verifica immediata ⚠</div>
+
+      <div class="body" id="phase-1">
+        <div class="row">
+          <div class="badge dngr">ACCESSO BLOCCATO</div>
+          <div class="muted">Tentativo non autorizzato</div>
+        </div>
+        <div class="row">
+          <div class="emph">Il tuo dispositivo non è autorizzato.</div>
+          <div class="muted">L’accesso è stato registrato. Attendere verifica...</div>
+        </div>
+        <div class="center" style="margin-top:10px;">
+          Ticket rif. <span class="code" id="ticket">AC-000000</span> · Policy <span class="code">SEC-18.3</span>
+        </div>
+      </div>
+
+      <div class="body hide" id="phase-2">
+        <div class="row">
+          <div class="badge dngr">VERIFICA COMPLETATA</div>
+          <div class="muted">Dispositivo non conforme</div>
+        </div>
+        <div class="row">
+          <div>
+            <div class="emph">Motivo:</div>
+            <div class="muted">stai scansionando <span class="emph">QR a caso</span> in ufficio 🤦‍♂️</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>© Secure Access · v1.0</div>
+        <div>Pagina dimostrativa</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Genera numero ticket
+    (function () {
+      const n = Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('ticket').textContent = 'AC-' + n;
+    })();
+
+    // Mostra banner dopo 2 secondi
+    setTimeout(() => {
+      document.getElementById('banner').style.display = 'block';
+    }, 2000);
+
+    // Mostra fase 2 dopo 6 secondi
+    setTimeout(() => {
+      document.getElementById('phase-1').classList.add('hide');
+      document.getElementById('phase-2').classList.remove('hide');
+      document.getElementById('banner').style.display = 'none';
+    }, 6000);
+  </script>
+</body>
+</html>
